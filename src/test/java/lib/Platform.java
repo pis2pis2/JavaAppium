@@ -8,7 +8,6 @@ import java.net.URL;
 public class Platform {
     private static final String PLATFORM_IOS = "ios";
     private static final String PLATFORM_ANDROID = "android";
-    private static String APPIUM_URL = "http://127.0.0.1:4723/wd/hub";
 
     private static Platform instance;
     private Platform() {}
@@ -21,6 +20,7 @@ public class Platform {
     }
 
     public AppiumDriver getDriver() throws Exception {
+        String APPIUM_URL = "http://127.0.0.1:4723/wd/hub";
         URL URL = new URL(APPIUM_URL);
         if (this.isAndroid()) {
             return new AppiumDriver(URL, getAndroidDesiredCapabilities());
