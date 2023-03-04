@@ -2,6 +2,7 @@ package lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.ArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IOSArticlePageObject extends ArticlePageObject {
     static {
@@ -13,7 +14,7 @@ public class IOSArticlePageObject extends ArticlePageObject {
         footerElement = "xpath://*[@resource-id='pcs-footer-container-readmore-heading'][@text='READ MORE']";
     }
 
-    public IOSArticlePageObject(AppiumDriver driver){
+    public IOSArticlePageObject(RemoteWebDriver driver){
         super(driver);
     }
 }

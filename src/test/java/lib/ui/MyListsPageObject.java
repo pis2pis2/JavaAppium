@@ -2,9 +2,10 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class MyListsPageObject extends MainPageObject{
-    public MyListsPageObject(AppiumDriver driver) {
+    public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
     private static String getFolderXpathByName(String nameFolder) {
@@ -15,9 +16,19 @@ abstract public class MyListsPageObject extends MainPageObject{
         return articleByTitleTpl.replace("{title}", title);
     }
 
+    public static String getRemoveButtonByTitle(String title) {
+        return removeFromSavedButton.replace("{title}", title);
+    }
+
+    public static String getAfterRemoveButtonByTitle(String title) {
+        return afterRemoveFromSavedButton.replace("{title}", title);
+    }
+
     protected static String
             nameFolderTpl,
-            articleByTitleTpl;
+            articleByTitleTpl,
+            removeFromSavedButton,
+            afterRemoveFromSavedButton;
 
     public void openFolderByName(String nameFolder){
         this.waitForElementAndClick(getFolderXpathByName(nameFolder), "Cannot find folder by name " + nameFolder, 5);
@@ -25,12 +36,19 @@ abstract public class MyListsPageObject extends MainPageObject{
 
     public void swipeArticleTitleToDelete(String articleTitle){
         this.waitForArticleToAppearByTitle(articleTitle);
-        this.swipeElementToLeft(getSavedArticleXpathByTitle(articleTitle), "Cannot find saved article by title " + articleTitle);
-        if(Platform.getInstance().isIOS()){
-            this.clickElementToTheRightUpperCorner(getSavedArticleXpathByTitle(articleTitle), "Cannot find saved article");
+        if(Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()){
+            this.swipeElementToLeft(getSavedArticleXpathByTitle(articleTitle), "Cannot find saved article by title " + articleTitle);
+            if(Platform.getInstance().isIOS()) {
+                this.clickElementToTheRightUpperCorner(getSavedArticleXpathByTitle(articleTitle), "Cannot find saved article");
+            }
+        } else {
+                String removeLocator = getRemoveButtonByTitle(articleTitle);
+                this.waitForElementAndClick(removeLocator, "Cannot click button to remove article from saved", 10);
+                String afterRemoveLocator = getAfterRemoveButtonByTitle(articleTitle);
+                this.waitForElementPresent(afterRemoveLocator, "Cannot find button after remove article from saved", 10);
+                driver.navigate().refresh();
         }
         this.waitForArticleToDisappearByTitle(articleTitle);
-
     }
 
     public void waitForArticleToDisappearByTitle(String articleTitle){

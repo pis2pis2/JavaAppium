@@ -2,6 +2,7 @@ package lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.MyListsPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IOSMyListsPageObject  extends MyListsPageObject {
 //    Исправить локаторы для ios
@@ -10,7 +11,7 @@ public class IOSMyListsPageObject  extends MyListsPageObject {
         articleByTitleTpl = "xpath://*[@text = '{title}']";
     }
 
-    public IOSMyListsPageObject(AppiumDriver driver){
+    public IOSMyListsPageObject(RemoteWebDriver driver){
         super(driver);
     }
 }

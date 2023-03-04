@@ -7,7 +7,7 @@ import lib.ui.WelcomePageObject;
 public class GetStartedTest extends CoreTestCase {
 
     public void testPassThroughWelcome(){
-        if(Platform.getInstance().isAndroid()) {
+        if(Platform.getInstance().isAndroid() || Platform.getInstance().isMW()) {
             return;
         }
         WelcomePageObject welcomePageObject = new WelcomePageObject(driver);

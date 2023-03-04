@@ -18,7 +18,7 @@ public class ArticleTests extends CoreTestCase {
         articlePageObject.waitForTitleElement();
         String articleHeader = articlePageObject.getArticleTitle();
         assertEquals("Ожидаемое название статьи не соответствует актуальному",
-                "Object-oriented programming language", articleHeader);
+                "Java (programming language)", articleHeader);
     }
 
     @Test
