@@ -62,7 +62,7 @@ public class MyListTests extends CoreTestCase {
     }
 
     @Test
-    public void testSaveTwoArticles() {
+    public void testSaveTwoArticles() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         MyListsPageObject myListsPageObject = MyListsPageObjectFactory.get(driver);
@@ -74,24 +74,51 @@ public class MyListTests extends CoreTestCase {
         String articleTitle1 = articlePageObject.getArticleTitle();
         System.out.println(articleTitle1);
         articlePageObject.addArticleToDefaultList();
-        articlePageObject.closeArticle();
+        if(Platform.getInstance().isMW()){
+            AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            auth.clickAuthButton();
+            auth.enterLoginDate(login, password);
+            auth.submitForm();
+            String url = driver.getCurrentUrl();
+            String new_url = url.substring(0,11) + "m." + url.substring(11);
+            driver.get(new_url);
+            articlePageObject.waitForTitleElement();
+            assertEquals("We are not on the same page after login", articleTitle1, articlePageObject.getArticleTitle());
+        }
+        if(Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
+            articlePageObject.closeArticle();
+        }else{
+            searchPageObject.initSearchInput();
+            searchPageObject.typeSearchLine("Java");
+        }
         searchPageObject.clickByArticleWithSubstring("Island in Indonesia");
         articlePageObject.waitForTitleElement();
         String articleTitle2 = articlePageObject.getArticleTitle();
         System.out.println(articleTitle2);
-        articlePageObject.addArticleToDefaultList();
-        articlePageObject.closeArticle();
         if(Platform.getInstance().isAndroid()) {
+            articlePageObject.addArticleToDefaultList();
+            articlePageObject.closeArticle();
             this.clickBack();
             this.clickBack();
             navigationUi.clickSavedButton();
             myListsPageObject.openFolderByName("Saved");
-        } else {
+        } else if (Platform.getInstance().isIOS()){
+            articlePageObject.addArticleToDefaultList();
+            articlePageObject.closeArticle();
             searchPageObject.clickCancelButtonIos();
             navigationUi.clickSavedButton();
+        } else {
+            articlePageObject.addArticleToDefaultListAfterLogin();
+            navigationUi.openNavigation();
+            navigationUi.clickToWatchList();
         }
         myListsPageObject.swipeArticleTitleToDelete(articleTitle1);
-        searchPageObject.clickByArticleWithSubstring("Island in Indonesia");
+        if(Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
+
+            searchPageObject.clickByArticleWithSubstring("Island in Indonesia");
+        } else {
+            myListsPageObject.openArticleByName("Java");
+        }
         articlePageObject.waitForTitleElement();
         String articleTitle2AfterSaved = articlePageObject.getArticleTitle();
         assertEquals("Ожидаемый и фактический заголовок 2-ой статьи не совпадают", articleTitle2, articleTitle2AfterSaved);

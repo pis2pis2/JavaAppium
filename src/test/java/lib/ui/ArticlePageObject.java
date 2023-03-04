@@ -15,6 +15,7 @@ abstract public class ArticlePageObject extends MainPageObject {
     protected static String
     title,
     pageSave,
+    pageSaveLogined,
     navigateUpButton,
     searchCloseButton,
     footerElement,
@@ -47,6 +48,14 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     public void addArticleToDefaultList(){
         this.waitForElementAndClick(pageSave, "Cannot find saveButton", 5);
+    }
+
+    public void addArticleToDefaultListAfterLogin(){
+        try {
+            this.waitForElementAndClick(pageSaveLogined, "Cannot find saveButton", 5);
+        } catch (Exception exception) {
+            System.out.println("Вы попытались добавить в избранное страницу, которая была добавлена ранее");
+        }
     }
 
     public void removedArticleFromSavedIfItAdded(){

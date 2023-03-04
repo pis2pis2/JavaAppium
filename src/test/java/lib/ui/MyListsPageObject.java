@@ -34,6 +34,11 @@ abstract public class MyListsPageObject extends MainPageObject{
         this.waitForElementAndClick(getFolderXpathByName(nameFolder), "Cannot find folder by name " + nameFolder, 5);
     }
 
+    public void openArticleByName(String articleTitle){
+        String locator = getSavedArticleXpathByTitle(articleTitle);
+        this.waitForElementAndClick(locator, "Cannot find open article by name " + articleTitle, 5);
+    }
+
     public void swipeArticleTitleToDelete(String articleTitle){
         this.waitForArticleToAppearByTitle(articleTitle);
         if(Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()){
