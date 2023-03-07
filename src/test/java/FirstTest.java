@@ -10,7 +10,7 @@ public class FirstTest extends CoreTestCase {
 
     private MainPageObject mainPageObject;
 
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         mainPageObject = new MainPageObject(driver);
     }

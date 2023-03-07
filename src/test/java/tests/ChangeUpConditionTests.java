@@ -6,6 +6,7 @@ import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ChangeUpConditionTests extends CoreTestCase {
@@ -22,7 +23,7 @@ public class ChangeUpConditionTests extends CoreTestCase {
         String titleBeforeRotation = articlePageObject.getArticleTitle();
         this.rotateScreenLandscape();
         String titleAfterRotation = articlePageObject.getArticleTitle();
-        assertEquals("ОР и ФР не совпадают", titleBeforeRotation, titleAfterRotation);
+        Assert.assertEquals("ОР и ФР не совпадают", titleBeforeRotation, titleAfterRotation);
     }
 
     @Test

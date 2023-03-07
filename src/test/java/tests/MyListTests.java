@@ -7,6 +7,7 @@ import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListsPageObjectFactory;
 import lib.ui.factories.NavigationUiFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static java.lang.Thread.sleep;
@@ -41,7 +42,7 @@ public class MyListTests extends CoreTestCase {
             String new_url = url.substring(0,11) + "m." + url.substring(11);
             driver.get(new_url);
             articlePageObject.waitForTitleElement();
-            assertEquals("We are not on the same page after login", articleTitle, articlePageObject.getArticleTitle());
+            Assert.assertEquals("We are not on the same page after login", articleTitle, articlePageObject.getArticleTitle());
         }
         if(Platform.getInstance().isAndroid()) {
             articlePageObject.closeArticle();
@@ -83,7 +84,7 @@ public class MyListTests extends CoreTestCase {
             String new_url = url.substring(0,11) + "m." + url.substring(11);
             driver.get(new_url);
             articlePageObject.waitForTitleElement();
-            assertEquals("We are not on the same page after login", articleTitle1, articlePageObject.getArticleTitle());
+            Assert.assertEquals("We are not on the same page after login", articleTitle1, articlePageObject.getArticleTitle());
         }
         if(Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
             articlePageObject.closeArticle();
@@ -121,6 +122,6 @@ public class MyListTests extends CoreTestCase {
         }
         articlePageObject.waitForTitleElement();
         String articleTitle2AfterSaved = articlePageObject.getArticleTitle();
-        assertEquals("Ожидаемый и фактический заголовок 2-ой статьи не совпадают", articleTitle2, articleTitle2AfterSaved);
+        Assert.assertEquals("Ожидаемый и фактический заголовок 2-ой статьи не совпадают", articleTitle2, articleTitle2AfterSaved);
     }
 }
